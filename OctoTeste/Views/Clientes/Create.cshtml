@@ -3,11 +3,11 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-<h1>Create</h1>
+<h1>Registro</h1>
 
 <h4>Cliente</h4>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -19,17 +19,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="Cpf" class="control-label">CPF</label>
-                <input id="cpf" asp-for="Cpf" class="form-control" />
+                <input id="CPF" type="text" asp-for="Cpf" class="form-control" />
                 <span asp-validation-for="Cpf" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="dataNascimento" class="control-label">Data de Nascimento</label>
-                <input id="nascimento" asp-for="dataNascimento" class="form-control" />
+                <input id="nascimento" type="text" asp-for="dataNascimento" class="form-control" />
                 <span asp-validation-for="dataNascimento" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Telefone" class="control-label"></label>
-                <input id="telefone" asp-for="Telefone" class="form-control" />
+                <input id="telefone" type="text" asp-for="Telefone" class="form-control" />
                 <span asp-validation-for="Telefone" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,7 +39,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Cep" class="control-label"></label>
-                <input id="CEP" asp-for="Cep" class="form-control" />
+                <input id="CEP" type="text" asp-for="Cep" class="form-control" />
                 <span asp-validation-for="Cep" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -54,7 +54,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Numero" class="control-label"></label>
-                <input asp-for="Numero" class="form-control" />
+                <input asp-for="Numero" type="text" class="form-control" />
                 <span asp-validation-for="Numero" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -68,14 +68,25 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+
 @section Scripts {
-    <script src="~/lib/jquery-mask-plugin/src/jquery.mask.js" type="text/javascript" asp-append-version="true">
+    <script>
         $(document).ready(function () {
             $('#nascimento').mask('00/00/0000');
             $('#CEP').mask('00000-000');
             $('#telefone').mask('(00) 0000-0000');
-            $('#cpf').mask('000.000.000-00', { reverse: true });
+            $('#CPF').mask('000.000.000-00', { reverse: true });
     </script>
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 }
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; 2021 - OctoTeste - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+</footer>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
