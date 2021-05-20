@@ -10,7 +10,7 @@ using OctoTeste.Data;
 namespace OctoTeste.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210519060729_Initial")]
+    [Migration("20210520185420_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,25 +30,27 @@ namespace OctoTeste.Migrations
                     b.Property<string>("Cep")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ClienteId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Cpf")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Endereco")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Numero")
                         .HasColumnType("int");
 
                     b.Property<string>("Telefone")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("dataNascimento")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("tipoEndereco")
