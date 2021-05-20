@@ -4,10 +4,11 @@
     ViewData["Title"] = "Create";
 }
 <h1>Registro</h1>
-
+<br />
 <h4>Cliente</h4>
 <hr />
-
+<script src="~/lib/jquery/jquery.min.js"></script>
+<script src="~/js/jquery.mask.min.js" type="text/javascript" asp-append-version="true"></script>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -19,12 +20,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Cpf" class="control-label">CPF</label>
-                <input id="CPF" type="text" asp-for="Cpf" class="form-control" />
+                <input id="txtCPF" asp-for="Cpf" class="form-control" />
                 <span asp-validation-for="Cpf" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="dataNascimento" class="control-label">Data de Nascimento</label>
-                <input id="nascimento" type="text" asp-for="dataNascimento" class="form-control" />
+                <input id="nascimento" asp-for="dataNascimento" class="form-control" />
                 <span asp-validation-for="dataNascimento" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -33,13 +34,18 @@
                 <span asp-validation-for="Telefone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="tipoTelefone" class="control-label">Tipo de Telefone</label>
-                <input asp-for="tipoTelefone" class="form-control" />
+                <label asp-for="tipoTelefone" class="control-label">Escolha o tipo de telefone:</label>
+                <select asp-for="tipoTelefone" class="custom-select">
+                    <option selected>Escolha uma Opção</option>
+                    <option value="Celular">Celular</option>
+                    <option value="Residencial">Residencial</option>
+                    <option value="Comercial">Comercial</option>
+                </select>
                 <span asp-validation-for="tipoTelefone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cep" class="control-label"></label>
-                <input id="CEP" type="text" asp-for="Cep" class="form-control" />
+                <label asp-for="Cep" class="control-label">CEP</label>
+                <input id="txtCEP" asp-for="Cep" class="form-control" />
                 <span asp-validation-for="Cep" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -48,8 +54,14 @@
                 <span asp-validation-for="Endereco" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="tipoEndereco" class="control-label">Tipo de Cobrança</label>
-                <input asp-for="tipoEndereco" class="form-control" />
+                <label asp-for="tipoEndereco" class="control-label">Escolha o tipo de cobrança:</label>
+                <select asp-for="tipoEndereco" class="custom-select">
+                    <option selected>Escolha uma Opção</option>
+                    <option value="Cobranca">Cobrança</option>
+                    <option value="Correspondencia">Correspondência</option>
+                    <option value="Entrega">Entrega</option>
+                    <option value="Residencial">Residencial</option>
+                </select>
                 <span asp-validation-for="tipoEndereco" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -58,14 +70,14 @@
                 <span asp-validation-for="Numero" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Registrar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Voltar</a>
 </div>
 
 
@@ -73,12 +85,12 @@
     <script>
         $(document).ready(function () {
             $('#nascimento').mask('00/00/0000');
-            $('#CEP').mask('00000-000');
+            $('#txtCEP').mask('00000-000');
             $('#telefone').mask('(00) 0000-0000');
-            $('#CPF').mask('000.000.000-00', { reverse: true });
+            $('#txtCPF').mask('000.000.000-00',);
     </script>
 
-@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 }
 

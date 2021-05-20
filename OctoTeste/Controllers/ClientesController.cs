@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OctoTeste.Data;
 using OctoTeste.Models;
+using PagedList;
 
 namespace OctoTeste.Controllers
 {
@@ -20,9 +21,47 @@ namespace OctoTeste.Controllers
         }
 
         // GET: Clientes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder,
+        string currentFilter,
+        string searchString,
+        int? pageNumber)
         {
-            return View(await _context.Clientes.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder)? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
+            var clientes = from s in _context.Clientes
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                clientes = clientes.Where(s => s.Nome.Contains(searchString)
+                                       || s.Nome.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    clientes = clientes.OrderByDescending(s => s.Nome);
+                    break;
+                case "Date":
+                    clientes = clientes.OrderBy(s => s.dataNascimento);
+                    break;
+                case "date_desc":
+                    clientes = clientes.OrderByDescending(s => s.dataNascimento);
+                    break;
+                default:
+                    clientes = clientes.OrderBy(s => s.Nome);
+                    break;
+            }
+            int pageSize = 3;
+            return View(await PaginatedList<Cliente>.CreateAsync(clientes.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Clientes/Details/5
