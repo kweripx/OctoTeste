@@ -1,6 +1,12 @@
 # OctoTeste
-Avaliação de Proficiência Tecnológica / Negócios 
 
-# Iniciando migration:
+## Introdução
 
-   # update-database
+> Avaliação de Proficiência Tecnológica / Negócios
+
+
+> Scripts se encontram como dbo.Clientes.data.sql e dbo.ClientesPJ.data.sql
+
+## Executando
+
+> Iniciando Migration: update-database
