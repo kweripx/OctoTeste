@@ -7,7 +7,7 @@
 
 > Scripts se encontram como dbo.Clientes.data.sql e dbo.ClientesPJ.data.sql.
 
-## Método Utilizado 
+## Metodologia Utilizada
 
 > Code First
 
