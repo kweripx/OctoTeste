@@ -14,6 +14,7 @@ namespace OctoTeste.Data
 
         }
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<ClientePJ> ClientesPJ { get; set; }
 
     }
 }

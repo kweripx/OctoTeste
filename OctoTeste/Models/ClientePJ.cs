@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace OctoTeste.Models
 {
-    public class Cliente : Entity
+    public class ClientePJ : Entity
     {
         [Required]
         public string Nome { get; set; }
-        [DisplayName("CPF")]
-        public string Cpf { get; set; }
+        [DisplayName("CNPJ")]
+        public string Cnpj { get; set; }
         [DisplayName("Data de Nascimento")]
         public string dataNascimento { get; set; }
         [Required]

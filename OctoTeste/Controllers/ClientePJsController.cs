@@ -7,28 +7,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OctoTeste.Data;
 using OctoTeste.Models;
-using PagedList;
 
 namespace OctoTeste.Controllers
 {
-    public class ClientesController : Controller
+    public class ClientePJsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ClientesController(ApplicationDbContext context)
+        public ClientePJsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Clientes
-        public async Task<IActionResult> Index(string sortOrder,
+        // GET: ClientePJs
+        public async Task<IActionResult> Index(
+        string sortOrder,
         string currentFilter,
         string searchString,
         int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder)? "name_desc" : "";
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
             if (searchString != null)
             {
                 pageNumber = 1;
@@ -37,34 +38,37 @@ namespace OctoTeste.Controllers
             {
                 searchString = currentFilter;
             }
+
             ViewData["CurrentFilter"] = searchString;
-            var clientes = from s in _context.Clientes
-                           select s;
+
+            var clientesP = from s in _context.ClientesPJ
+                            select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                clientes = clientes.Where(s => s.Nome.Contains(searchString)
+                clientesP = clientesP.Where(s => s.Nome.Contains(searchString)
                                        || s.Nome.Contains(searchString));
             }
             switch (sortOrder)
             {
                 case "name_desc":
-                    clientes = clientes.OrderByDescending(s => s.Nome);
+                    clientesP = clientesP.OrderByDescending(s => s.Nome);
                     break;
                 case "Date":
-                    clientes = clientes.OrderBy(s => s.dataNascimento);
+                    clientesP = clientesP.OrderBy(s => s.dataNascimento);
                     break;
                 case "date_desc":
-                    clientes = clientes.OrderByDescending(s => s.dataNascimento);
+                    clientesP = clientesP.OrderByDescending(s => s.dataNascimento);
                     break;
                 default:
-                    clientes = clientes.OrderBy(s => s.Nome);
+                    clientesP = clientesP.OrderBy(s => s.Nome);
                     break;
             }
+
             int pageSize = 3;
-            return View(await PaginatedList<Cliente>.CreateAsync(clientes.AsNoTracking(), pageNumber ?? 1, pageSize));
+            return View(await PaginatedList<ClientePJ>.CreateAsync(clientesP.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        // GET: Clientes/Details/5
+        // GET: ClientePJs/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -72,39 +76,40 @@ namespace OctoTeste.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Clientes
+            var clientePJ = await _context.ClientesPJ
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (cliente == null)
+            if (clientePJ == null)
             {
                 return NotFound();
             }
 
-            return View(cliente);
+            return View(clientePJ);
         }
 
-        // GET: Clientes/Create
+        // GET: ClientePJs/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Clientes/Create
+        // POST: ClientePJs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome,Cpf,Cnpj,dataNascimento,Telefone,tipoTelefone,Cep,Endereco,tipoEndereco,Numero,Id")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("Nome,Cnpj,dataNascimento,Telefone,tipoTelefone,Cep,Endereco,tipoEndereco,Numero,Id")] ClientePJ clientePJ)
         {
             if (ModelState.IsValid)
             {
-                cliente.Id = Guid.NewGuid();
-                _context.Add(cliente);
+                clientePJ.Id = Guid.NewGuid();
+                _context.Add(clientePJ);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            return View(clientePJ);
         }
-        // GET: Clientes/Edit/5
+
+        // GET: ClientePJs/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -112,22 +117,22 @@ namespace OctoTeste.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Clientes.FindAsync(id);
-            if (cliente == null)
+            var clientePJ = await _context.ClientesPJ.FindAsync(id);
+            if (clientePJ == null)
             {
                 return NotFound();
             }
-            return View(cliente);
+            return View(clientePJ);
         }
 
-        // POST: Clientes/Edit/5
+        // POST: ClientePJs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Nome,Cpf,Cnpj,dataNascimento,Telefone,tipoTelefone,Cep,Endereco,tipoEndereco,Numero,Id")] Cliente cliente)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Nome,Cnpj,dataNascimento,Telefone,tipoTelefone,Cep,Endereco,tipoEndereco,Numero,Id")] ClientePJ clientePJ)
         {
-            if (id != cliente.Id)
+            if (id != clientePJ.Id)
             {
                 return NotFound();
             }
@@ -136,12 +141,12 @@ namespace OctoTeste.Controllers
             {
                 try
                 {
-                    _context.Update(cliente);
+                    _context.Update(clientePJ);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClienteExists(cliente.Id))
+                    if (!ClientePJExists(clientePJ.Id))
                     {
                         return NotFound();
                     }
@@ -152,10 +157,10 @@ namespace OctoTeste.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(cliente);
+            return View(clientePJ);
         }
 
-        // GET: Clientes/Delete/5
+        // GET: ClientePJs/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -163,30 +168,30 @@ namespace OctoTeste.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Clientes
+            var clientePJ = await _context.ClientesPJ
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (cliente == null)
+            if (clientePJ == null)
             {
                 return NotFound();
             }
 
-            return View(cliente);
+            return View(clientePJ);
         }
 
-        // POST: Clientes/Delete/5
+        // POST: ClientePJs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var cliente = await _context.Clientes.FindAsync(id);
-            _context.Clientes.Remove(cliente);
+            var clientePJ = await _context.ClientesPJ.FindAsync(id);
+            _context.ClientesPJ.Remove(clientePJ);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClienteExists(Guid id)
+        private bool ClientePJExists(Guid id)
         {
-            return _context.Clientes.Any(e => e.Id == id);
+            return _context.ClientesPJ.Any(e => e.Id == id);
         }
     }
 }
