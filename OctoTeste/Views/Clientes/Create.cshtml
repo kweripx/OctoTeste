@@ -24,6 +24,11 @@
                 <span asp-validation-for="Cpf" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Cnpj" class="control-label">CNPJ</label>
+                <input id="CNPJ" asp-for="Cnpj" class="form-control" />
+                <span asp-validation-for="Cnpj" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="dataNascimento" class="control-label">Data de Nascimento</label>
                 <input id="nascimento" asp-for="dataNascimento" class="form-control" />
                 <span asp-validation-for="dataNascimento" class="text-danger"></span>
@@ -87,7 +92,9 @@
             $('#nascimento').mask('00/00/0000');
             $('#txtCEP').mask('00000-000');
             $('#telefone').mask('(00) 0000-0000');
-            $('#CPF').mask('000.000.000-00',);
+            $('#CPF').mask('000.000.000-00', { reverse: true });;
+            $('#CNPJ').mask('00.000.000/0000-00', { reverse: true });
+        })
     </script>
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

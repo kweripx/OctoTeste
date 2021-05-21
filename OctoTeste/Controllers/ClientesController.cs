@@ -93,7 +93,7 @@ namespace OctoTeste.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome,Cpf,dataNascimento,Telefone,tipoTelefone,Cep,Endereco,tipoEndereco,Numero,Id")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("Nome,Cpf,Cnpj,dataNascimento,Telefone,tipoTelefone,Cep,Endereco,tipoEndereco,Numero,Id")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -126,7 +126,7 @@ namespace OctoTeste.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Nome,Cpf,dataNascimento,Telefone,tipoTelefone,Cep,Endereco,tipoEndereco,Numero,Id")] Cliente cliente)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Nome,Cpf,Cnpj,dataNascimento,Telefone,tipoTelefone,Cep,Endereco,tipoEndereco,Numero,Id")] Cliente cliente)
         {
             if (id != cliente.Id)
             {

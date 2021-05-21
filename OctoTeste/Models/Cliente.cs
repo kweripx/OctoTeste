@@ -12,10 +12,10 @@ namespace OctoTeste.Models
     {
         [Required]
         public string Nome { get; set; }
-        [Required]
         [DisplayName("CPF")]
         public string Cpf { get; set; }
-        [Required]
+        [DisplayName("CNPJ")]
+        public string Cnpj { get; set; }
         [DisplayName("Data de Nascimento")]
         public string dataNascimento { get; set; }
         [Required]
